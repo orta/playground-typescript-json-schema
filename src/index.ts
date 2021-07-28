@@ -12,8 +12,8 @@ const makePlugin = (utils: PluginUtils) => {
 
       ds.title("TS -> JSON Schema");
       ds.p(
-        "This plugin uses a custom build of <a href='https://github.com/YousefED/typescript-json-schema'>YousefED/typescript-json-schema</a> (at commit <a href ='https://github.com/YousefED/typescript-json-schema/tree/20a03a2d2fe81bea56a895cee7975f87fbf480f8'>20a03a2</a> to output the JSON schema version of your exported interfaces/types from the Playground editor."
-      );
+        "This plugin uses a <a href='https://github.com/orta/playground-typescript-json-schema/tree/master/src/lib' target='_blank'>custom</a> build of <a href='https://github.com/YousefED/typescript-json-schema' target='_blank'>YousefED/typescript-json-schema</a> (at commit <a href ='https://github.com/YousefED/typescript-json-schema/tree/20a03a2d2fe81bea56a895cee7975f87fbf480f8' target='_blank'>20a03a2</a> to output the JSON schema version of your exported interfaces/types from the Playground editor."
+        );
 
       const startButton = document.createElement("input");
       startButton.type = "button";
