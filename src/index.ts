@@ -1,33 +1,42 @@
-import type { PlaygroundPlugin, PluginUtils } from "./vendor/playground"
+import type { PlaygroundPlugin, PluginUtils } from "./vendor/playground";
+import * as TJS from "./lib/typescript-json-schema";
 
 const makePlugin = (utils: PluginUtils) => {
   const customPlugin: PlaygroundPlugin = {
-    id: "example",
-    displayName: "Dev Example",
+    id: "json-schema",
+    displayName: "JSON Schema",
     didMount: (sandbox, container) => {
-      console.log("Showing new plugin")
-
       // Create a design system object to handle
       // making DOM elements which fit the playground (and handle mobile/light/dark etc)
-      const ds = utils.createDesignSystem(container)
+      const ds = utils.createDesignSystem(container);
 
-      ds.title("Example Plugin")
-      ds.p("This plugin has a button which changes the text in the editor, click below to test it")
+      ds.title("TS -> JSON Schema");
+      ds.p(
+        "This plugin uses a custom build of <a href='https://github.com/YousefED/typescript-json-schema'>YousefED/typescript-json-schema</a> (at commit <a href ='https://github.com/YousefED/typescript-json-schema/tree/20a03a2d2fe81bea56a895cee7975f87fbf480f8'>20a03a2</a> to output the JSON schema version of your exported interfaces/types from the Playground editor."
+      );
 
-      const startButton = document.createElement("input")
-      startButton.type = "button"
-      startButton.value = "Change the code in the editor"
-      container.appendChild(startButton)
+      const startButton = document.createElement("input");
+      startButton.type = "button";
+      startButton.value = "Convert to JSON Schema";
+      container.appendChild(startButton);
 
-      startButton.onclick = () => {
-        sandbox.setText("// You clicked the button!")
-      }
+      const div = document.createElement("div");
+      const codeDS = utils.createDesignSystem(div);
+      container.appendChild(div);
+
+      startButton.onclick = async () => {
+        const settings: TJS.PartialArgs = {
+          ignoreErrors: true,
+        };
+
+        const program: any = await sandbox.createTSProgram();
+        // We can either get the schema for one file and one type...
+        const schema = TJS.generateSchema(program, "*", settings);
+        codeDS.clear();
+        codeDS.code(JSON.stringify(schema, null, "    "));
+      };
     },
 
-    // This is called occasionally as text changes in monaco,
-    // it does not directly map 1 keyup to once run of the function
-    // because it is intentionally called at most once every 0.3 seconds
-    // and then will always run at the end.
     modelChangedDebounce: async (_sandbox, _model) => {
       // Do some work with the new text
     },
@@ -35,11 +44,11 @@ const makePlugin = (utils: PluginUtils) => {
     // Gives you a chance to remove anything set up,
     // the container itself if wiped of children after this.
     didUnmount: () => {
-      console.log("De-focusing plugin")
+      console.log("De-focusing plugin");
     },
-  }
+  };
 
-  return customPlugin
-}
+  return customPlugin;
+};
 
-export default makePlugin
+export default makePlugin;

@@ -29,10 +29,18 @@
     "monaco-editor": "^0.19.3",
     "node-fetch": "^2.6.0",
     "rollup": "^1.31.0",
+    "rollup-plugin-external-globals": "^0.6.1",
     "serve": "^11.3.0",
-    "typescript": "latest"
+    "typescript": "^4.3.5"
   },
   "dependencies": {
-    "tslib": "^1.10.0"
+    "@types/json-stable-stringify": "^1.0.33",
+    "crypto-browserify": "^3.12.0",
+    "js-md5": "^0.7.3",
+    "json-stable-stringify": "^1.0.1",
+    "rollup-plugin-ignore": "^1.0.9",
+    "rollup-plugin-node-builtins": "^2.1.2",
+    "tslib": "^1.10.0",
+    "typescript-json-schema": "^0.50.1"
   }
 }
